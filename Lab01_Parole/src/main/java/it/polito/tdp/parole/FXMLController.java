@@ -1,10 +1,7 @@
 package it.polito.tdp.parole;
-
-import it.polito.tdp.parole.model.Parole;
 import java.util.*;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import it.polito.tdp.parole.model.Parole;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,30 +9,32 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class FXMLController {
-	
-	Parole elenco ;
+
 	Parole p = new Parole();
-
+	
     @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
-
-    @FXML
-    private TextField txtParola;
+    private Button btnDelete;
 
     @FXML
     private Button btnInserisci;
 
     @FXML
-    private TextArea txtResult;
-
-    @FXML
     private Button btnReset;
 
     @FXML
+    private TextField txtParola;
+
+    @FXML
+    private TextArea txtResult;
+
+    @FXML
+    private TextField txtTempi;
+
+
+    @FXML
     void doInsert(ActionEvent event) {
+    	long start = System.nanoTime();
+    	
     	String temp = txtParola.getText();
     	p.addParola(temp);
     	
@@ -48,22 +47,49 @@ public class FXMLController {
     	
     	txtResult.setText(stampa);
     	txtParola.clear();
+    	
+    	long time = System.nanoTime();
+    	long ris = time - start;
+    	txtTempi.setText(""+ris);
     }
 
     @FXML
+    void doDelete(ActionEvent event) {
+    	long start = System.nanoTime();
+    	
+    	String eliminata = txtResult.getSelectedText();
+    	p.cancella(eliminata);
+    	
+    	String stampa = "";
+    	List<String> l = p.getElenco();
+    	
+    	for(String s : l) {
+    		stampa += s + "\n";
+    	}
+    	
+    	txtResult.setText(stampa);
+    	txtParola.clear();
+    	
+    	long time = System.nanoTime();
+    	long ris = time - start;
+    	txtTempi.setText(""+ris);
+    }
+    
+    @FXML
     void doReset(ActionEvent event) {
+    	long start = System.nanoTime();
+    	
     	txtParola.clear();
     	txtResult.clear();
+    	
+    	p.reset();
+    	
+    	long time = System.nanoTime();
+    	long ris = time - start;
+    	txtTempi.setText(""+ris);
     	// TODO
     }
 
-    @FXML
-    void initialize() {
-        assert txtParola != null : "fx:id=\"txtParola\" was not injected: check your FXML file 'Scene.fxml'.";
-        assert btnInserisci != null : "fx:id=\"btnInserisci\" was not injected: check your FXML file 'Scene.fxml'.";
-        assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Scene.fxml'.";
-        assert btnReset != null : "fx:id=\"btnReset\" was not injected: check your FXML file 'Scene.fxml'.";
-
-        elenco = new Parole() ;
-    }
 }
+
+

@@ -7,6 +7,7 @@ public class Parole {
 	List<String> parole;
 	
 	public Parole() {
+		//parole = new LinkedList<String>();
 		parole = new LinkedList<String>();
 	}
 	
@@ -25,6 +26,14 @@ public class Parole {
 		parole.clear();
 	}
 
+	public void cancella(String p) {
+		int i = 0;
+		for(String s : parole) {
+			if(s.compareTo(p)==0)
+				parole.remove(i);
+			i++;
+		}
+	}
 	
 
 }
